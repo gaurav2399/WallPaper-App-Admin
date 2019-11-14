@@ -1,0 +1,161 @@
+<h2>Images</h2>
+<hr/>
+<div class="row">
+    <div class="col-lg-3">
+        <h4>Add a Wallpaper</h4>
+        <form id="image-form">
+                <div class="form-group">
+                    <label for="category">Select Category</label>
+                    <select id="category" class="form-control">
+                            
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title"/>
+                    <div class="invalid-feedback">
+                        Please enter title
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Description</label>
+                        <input type="text" class="form-control" id="desc"/>
+                        <div class="invalid-feedback">
+                            Please enter description
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="wallpaper">Wallpaper</label>
+                        <input type="file" class="form-control" id="wallpaper"/>
+                        <div class="invalid-feedback">
+                            Please choose a valid image
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <div class="progress">
+                                <div class="progress-bar" id="progress" style="width: 0%">0%</div>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <button type="button" id="btn-save" class="btn btn-primary">Save Wallpaper</button>
+                    </div>
+            
+        </form>
+    </div>
+    <div class="col-lg-9">
+        <img id="img-wallpaper" width="800" height="400"/>
+    </div>
+</div>
+<script>
+    function previewWallpaper(thumbnail){
+            if(thumbnail.files && thumbnail.files[0]){
+                var reader = new FileReader();
+
+                reader.onload = function(e){
+                    $("#img-wallpaper").attr('src',e.target.result);
+                }
+
+            reader.readAsDataURL(thumbnail.files[0]);
+        }
+    }
+    $("#wallpaper").change(function(){
+        previewWallpaper(this);
+    });
+
+    var dbCategories=firebase.database().ref("categories");
+    dbCategories.once("value").then(function(categories){
+        categories.forEach(function(category){
+            $("#category").append("<option value='"+category.key+"'>"+category.key+"</option>")
+        })
+    })
+
+    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+    $("#btn-save").click(function(){
+        console.log("you clicked btn")
+
+    $("#title").removeClass("is-invalid");
+    $("#desc").removeClass("is-invalid");
+    $("#wallpaper").removeClass("is-invalid");
+
+    var title=$("#title").val();
+    var desc=$("#desc").val();
+    var wallpaper=$("#wallpaper").prop("files")[0];
+
+        //Validations
+
+        if(!title){
+            $("#title").addClass("is-invalid");
+            return;
+        }
+
+        if(!desc){
+            $("#desc").addClass("is-invalid");
+            return;
+        }
+
+        if(wallpaper==null){
+            $("#wallpaper").addClass("is-invalid");
+            return;
+        }
+
+        if($.inArray(wallpaper["type"],validImageTypes)<0){
+            $("#wallpaper").addClass("is-invalid");
+            return;
+        }
+
+        var category=$("#category").val();
+        var name=wallpaper["name"]
+        var ext=name.substring(name.lastIndexOf("."),name.legth)
+
+        var imagename=new Date().getTime()
+        var addString = imagename+ext
+        console.log("svaed name",addString)
+        var storageRef = firebase.storage().ref(category + "/" + addString)
+
+        var uplaodTask = storageRef.put(wallpaper);
+        uplaodTask.on("state_changed",
+        function progress(snapshot){
+            var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("current progress",percentage)
+            $("#progress").html(percentage + "%");
+            $("#progress").attr("style"," width: "+percentage+"%");
+        },
+        function error(err){
+            console("state_changed error","yes")
+            $("#result").attr("class","alert alert-danger");
+            $("#result").html(err.message);
+        },
+        function complete(){
+            storageRef.getDownloadURL().then(function(uri,error){
+                if(!error){
+                    var database = firebase.database().ref("images").child(category)
+
+                    var image_id = database.push().key
+                    var image={
+                        "url":uri,
+                        "title":title,
+                        "desc":desc
+                    }
+
+                    database.child(image_id).set(image,function(error){
+                        if(!error){
+                            alert("Image saved.")
+                        }else{
+                            alert("Image not saved.")
+                            console.log("error in saving",e.printStackTrace())
+                        }
+                        
+                        resetForm()
+                    })
+                }
+            })
+            
+        })
+    })
+    function resetForm(){
+            $("#image-form")[0].reset();
+            $("#img-wallpaper").attr("src","");
+            $("#progress").html("Completed")
+        }
+</script>

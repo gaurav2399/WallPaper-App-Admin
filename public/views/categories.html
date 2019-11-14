@@ -1,0 +1,67 @@
+
+<div >
+        <h2>Categories</h2>
+        <hr />
+</div>
+<div class="row" style="background-color:#eee6ff">
+    <div class="col-lg-5">
+        <h4>Add new</h4>
+        <form id="category-form">
+            <div class="form-group">
+                <label for="category-name">Enter name</label>
+                <input type="text" class="form-control" id="category-name"/>
+                <div class="invalid-feedback">
+                    Please enter a category name
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category-desc">Description</label>
+                <input type="text" class="form-control" id="category-desc"/>
+                <div class="invalid-feedback">
+                    Please enter some short description for category
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category-thumbnail">Thumbnail</label>
+                <div>
+                    <input type="file" class="form-control" id="category-thumbnail" size="50"/>
+                    <div class="invalid-feedback">
+                        Please choose a valid image thumbnail
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <img id="selected-thumbnail" height="250" src="#"/>
+            </div>
+            <div class="form-group">
+                <div class="progress">
+                    <div class="progress-bar" id="upload-progress" style="width: 0%">0%</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button id="save-category" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+        <div id="result">
+
+        </div>
+    </div>
+    <div class="col-lg-7">
+            <h4>Saved Categories</h4>
+            <!--create white grey stripped table-->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Thumbnail</th>
+                    </tr>
+                </thead>
+                <tbody id="categories-table">
+
+                </tbody>
+
+            </table>
+        </div>
+</div>
+<script src="js/uploadThumbnail.js"></script>

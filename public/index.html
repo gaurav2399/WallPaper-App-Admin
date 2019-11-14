@@ -1,0 +1,49 @@
+<!-- public/index.html -->
+<html>
+  <head>
+    <!--for adding css-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!--for adding jquery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>    <link rel="stylesheet" href="css/style.css" />
+    <!--for firebase-->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+  </head>
+  <body class="bg-dark">
+
+    
+    <div id="login-card" class="card">
+      <div class="card-body">
+        <h2>WallPaper App Admin</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">email</label>
+            <input type="email" id="email" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="password">password</label>
+            <input type="password" id="password" class="form-control" />
+          </div>
+          <div class="form-group">
+            <button id="myButton" type="button" class="btn btn-primary">Login</button>
+          </div>
+          <!--<input id="clickMe" type="button" value="clickme" onclick="doFunction();" />-->
+        </form>
+      </div>
+    </div>
+
+    <script src="js/exmp.js"></script>
+    
+    <script>
+      const myAuth = firebase.auth();
+      firebase.auth().onAuthStateChanged(user => {
+                  if(user){
+                    //user is logged in
+                    window.location.href = "admin.html";
+                  }
+       });
+    </script>
+
+   </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="h-100">
+    <head>
+        <!--for adding css-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!--for adding jquery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!--for firebase-->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-storage.js"></script>
+
+
+    </head>
+
+    <body class="h-100" >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Wallpaper App Admin</a>
+            <div class="dropdown navbar-right">
+              <button 
+              id="user_email" 
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
+                gaurav@gmail.com
+              </button>
+              <div 
+              class="dropdown-menu"
+              aria-labelledby="user_email">
+              <a class="dropdown-item" id="btn-logout" href="#">
+                Logout
+              </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="row h-100 bg-light">
+          <div class="col-lg-2 bg-secondary">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="#" onclick="switchView('views/images.html')">
+                  <span style="color:#EEEEEE">Images</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="switchView('views/categories.html')">
+                    <span style="color:#EEEEEE">Categories</span>
+                  </a>
+                </li>
+            </ul>
+          </div>
+        
+
+        <div class="col-lg-10" id="container" style="background-color:#d2c2fd" >
+          <div class="container">
+          </div>
+        </div>
+      </div>
+
+        <script src="js/exmp.js"></script>
+        <script>
+                var config = {
+                    apiKey: "AIzaSyAy0YE0IICU1S48Z81yyJh-feRx63kCikQ",
+                    authDomain: "mywallpaperapp-1ce27.firebaseapp.com",
+                    databaseURL: "https://mywallpaperapp-1ce27.firebaseio.com",
+                    projectId: "mywallpaperapp-1ce27",
+                    storageBucket: "mywallpaperapp-1ce27.appspot.com",
+                    messagingSenderId: "148594201157",
+                    appId: "1:148594201157:web:c645eacfabcca74c"
+                };
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(config);
+                }else{
+                    firebase.app();
+                }
+                firebase.auth().onAuthStateChanged(user => {
+                  if(!user){
+                    //user is not logged in
+                    window.location.href = "index.html";
+                  }
+                });
+        </script>
+    </body>
+</html>

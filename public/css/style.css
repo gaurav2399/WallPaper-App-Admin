@@ -1,0 +1,28 @@
+#login-card{
+    width: 450px;
+    margin:150px auto;
+}
+
+/* #container{
+    margin-top: 25px;
+} */
+
+.form-control.test {
+    margin-top: 25px;
+    border: none !important;
+    outline: none !important;
+} 
+h2{
+    padding: 15px;
+}
+/* 
+table.table-bordered{
+    border:1px solid blue;
+    margin-top:20px;
+  }
+table.table-bordered > thead > tr > th{
+    border:1px solid blue;
+}
+table.table-bordered > tbody > tr > td{
+    border:1px solid blue;
+} */
